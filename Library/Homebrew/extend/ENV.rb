@@ -51,6 +51,7 @@ module HomebrewEnvExtension
     # http://gcc.gnu.org/onlinedocs/gcc-4.2.1/gcc/i386-and-x86_002d64-Options.html
     # We don't set, eg. -msse3 because the march flag does that for us:
     # http://gcc.gnu.org/onlinedocs/gcc-4.3.3/gcc/i386-and-x86_002d64-Options.html
+    if Hardware.cpu_type == :intel
     if MACOS_VERSION >= 10.6
       case Hardware.intel_family
       when :nehalem, :penryn, :core2
@@ -75,6 +76,17 @@ module HomebrewEnvExtension
         cflags<<"-march=prescott"
       end
       cflags<<"-mfpmath=sse"
+    end
+    else
+      # PPC optimizations go here
+      # For instace, Altivec and PPC64 flags
+      case Hardware.ppc_family
+      when :powerpc_603ev
+        cflags<<'-mcpu=603e'<<'-mtune=603e'
+      else
+        cpu_type = Hardware.ppc_family.to_s.split('_').last
+        cflags<<"-mcpu=#{cpu_type}"<<"-mtune=#{cpu_type}"
+      end
     end
 
     self['CFLAGS'] = self['CXXFLAGS'] = "#{cflags*' '} #{SAFE_CFLAGS_FLAGS}"

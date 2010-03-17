@@ -12,9 +12,9 @@ module Homebrew extend self
 end
 
 class RefreshBrew
-  REPOSITORY_URL   = "http://github.com/mxcl/homebrew.git"
-  CHECKOUT_COMMAND = "git checkout -q master"
-  UPDATE_COMMAND   = "git pull #{REPOSITORY_URL} master"
+  REPOSITORY_URL   = "http://github.com/sceaga/homebrew.git"
+  CHECKOUT_COMMAND = "git checkout -q powerpc"
+  UPDATE_COMMAND   = "git pull #{REPOSITORY_URL} powerpc"
   REVISION_COMMAND = "git rev-parse HEAD"
   DIFF_COMMAND     = "git diff-tree -r --name-status -z %s %s"
 
